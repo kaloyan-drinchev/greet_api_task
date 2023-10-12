@@ -1,7 +1,10 @@
+import Cards from "./components/Cards/Cards";
+
 function App() {
   return (
-    <div>
-      <h1>Project setup</h1>
+    <div className="bg-dark">
+      <h1 className="text-center text-white">Users </h1>
+      <Cards />
     </div>
   );
 }
