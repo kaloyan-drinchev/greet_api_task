@@ -2,7 +2,7 @@ import Cards from "./components/Cards/Cards";
 
 function App() {
   return (
-    <div className="bg-dark">
+    <div>
       <h1 className="text-center text-white">Users </h1>
       <Cards />
     </div>
