@@ -10,7 +10,7 @@ export default function AddToCart({ id }) {
       onClick={handleClick}
       target="_blank"
     >
-      Add To Cart
+      Направи среща
     </button>
   );
 }
