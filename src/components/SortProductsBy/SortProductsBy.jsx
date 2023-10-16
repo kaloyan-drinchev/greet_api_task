@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 
-export default function DropdownMenuFilterByPrice({
-  sortAscOrder,
-  sortDescOrder,
-  sortAscOrderByName,
-  sortDescOrderByName,
+export default function SortProductsBy({
+  ascOrder,
+  descOrder,
+  ascOrderByName,
+  descOrderByName,
 }) {
   const [toggle, setToggle] = useState(false);
 
@@ -27,7 +27,7 @@ export default function DropdownMenuFilterByPrice({
         <button
           className="dropdown-item"
           onClick={() => {
-            sortAscOrder(), setToggle(false);
+            ascOrder(), setToggle(false);
           }}
         >
           Цена <i className="bi bi-arrow-down"></i>
@@ -35,7 +35,7 @@ export default function DropdownMenuFilterByPrice({
         <button
           className="dropdown-item"
           onClick={() => {
-            sortDescOrder(), setToggle(false);
+            descOrder(), setToggle(false);
           }}
         >
           Цена <i className="bi bi-arrow-up"></i>
@@ -43,7 +43,7 @@ export default function DropdownMenuFilterByPrice({
         <button
           className="dropdown-item"
           onClick={() => {
-            sortAscOrderByName(), setToggle(false);
+            ascOrderByName(), setToggle(false);
           }}
         >
           По име (А-Я)
@@ -51,7 +51,7 @@ export default function DropdownMenuFilterByPrice({
         <button
           className="dropdown-item"
           onClick={() => {
-            sortDescOrderByName(), setToggle(false);
+            descOrderByName(), setToggle(false);
           }}
         >
           По име (Я-А)

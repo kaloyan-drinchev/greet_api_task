@@ -1,6 +1,6 @@
 import SortedData from "../SortedData/SortedData";
-import DropdownMenuFilterByCategory from "../DropdownMenuFilterByCategory/DropdownMenuFilterByCategory";
-import DropdownMenuFilterByPrice from "../DropdownMenuFilterByPrice/DropdownMenuFilterByPrice";
+import FilterProductsBy from "../FilterProductsBy/FilterProductsBy";
+import SortProductsBy from "../SortProductsBy/SortProductsBy";
 import { fetchData } from "../../helpers/helpers";
 import { useEffect, useState } from "react";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
@@ -80,15 +80,15 @@ export default function Cards() {
       <div className="container">
         <div className="row">
           <div className="col-6 col-lg-1 mb-3">
-            <DropdownMenuFilterByPrice
-              sortAscOrder={sortAsc}
-              sortDescOrder={sortDesc}
-              sortAscOrderByName={sortAscByName}
-              sortDescOrderByName={sortDescByName}
+            <SortProductsBy
+              ascOrder={sortAsc}
+              descOrder={sortDesc}
+              ascOrderByName={sortAscByName}
+              descOrderByName={sortDescByName}
             />
           </div>
           <div className="col-6 col-lg-1 mb-3">
-            <DropdownMenuFilterByCategory />
+            <FilterProductsBy />
           </div>
         </div>
       </div>

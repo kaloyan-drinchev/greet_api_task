@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getAllCategories } from "../../helpers/helpers";
 
-export default function DropdownMenuFilterByCategory() {
+export default function FilterProductsBy() {
   const [toggle, setToggle] = useState(false);
   const [categories, setCategories] = useState([]);
 
@@ -19,21 +19,23 @@ export default function DropdownMenuFilterByCategory() {
   return (
     <div className={`dropdown ${toggle ? "show" : ""}`}>
       <button
-        className="btn btn-primary dropdown-toggle"
+        className="btn btn-primary dropdown-toggle ms-4"
         type="button"
         onClick={dropdownMenuToggle}
         id="dropdownMenuButton"
       >
-        Сортирай по Категория
+        Категории
       </button>
-      <div
-        className={`dropdown-menu ${toggle ? "show" : ""} p-1 transparent-bg`}
-      >
+      <div className={`dropdown-menu ${toggle ? "show" : ""} p-1`}>
         {categories &&
-          categories.map((category, index) => (
-            <div key={index}>
-              <button className="rounded mb-1 dropdown-item">{category}</button>
-            </div>
+          categories.map((category) => (
+            <button
+              key={category.id}
+              className="rounded mb-1 dropdown-item"
+              onClick={() => setToggle(false)}
+            >
+              {category.name}
+            </button>
           ))}
       </div>
     </div>
