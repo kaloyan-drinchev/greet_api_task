@@ -8,7 +8,6 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 export default function Cards() {
   const [peopleByPrice, setPeopleByPrice] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
 
   const sortAsc = async () => {
     setIsLoading(true);
@@ -19,7 +18,6 @@ export default function Cards() {
       setPeopleByPrice(res);
       setIsLoading(false);
     } catch (error) {
-      setErrorMessage("Unable to fetch data");
       setIsLoading(false);
     }
   };
@@ -33,7 +31,30 @@ export default function Cards() {
       setPeopleByPrice(res);
       setIsLoading(false);
     } catch (error) {
-      setErrorMessage("Unable to fetch data");
+      setIsLoading(false);
+    }
+  };
+  const sortAscByName = async () => {
+    setIsLoading(true);
+    try {
+      const res = await fetchData(
+        "https://greet.bg/wp-json/wc/store/products?orderby=title&order=asc"
+      );
+      setPeopleByPrice(res);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+    }
+  };
+  const sortDescByName = async () => {
+    setIsLoading(true);
+    try {
+      const res = await fetchData(
+        "https://greet.bg/wp-json/wc/store/products?orderby=title&order=desc"
+      );
+      setPeopleByPrice(res);
+      setIsLoading(false);
+    } catch (error) {
       setIsLoading(false);
     }
   };
@@ -48,7 +69,6 @@ export default function Cards() {
         setPeopleByPrice(res);
         setIsLoading(false);
       } catch (error) {
-        setErrorMessage("Unable to fetch data");
         setIsLoading(false);
       }
     }
@@ -59,19 +79,20 @@ export default function Cards() {
     <>
       <div className="container">
         <div className="row">
-          <div className="col mb-3">
+          <div className="col-6 col-lg-1 mb-3">
             <DropdownMenuFilterByPrice
-              sortByAsc={sortAsc}
-              sortByDesc={sortDesc}
+              sortAscOrder={sortAsc}
+              sortDescOrder={sortDesc}
+              sortAscOrderByName={sortAscByName}
+              sortDescOrderByName={sortDescByName}
             />
           </div>
-          <div className="col mb-3">
+          <div className="col-6 col-lg-1 mb-3">
             <DropdownMenuFilterByCategory />
           </div>
         </div>
       </div>
 
-      {errorMessage && <div className="text-white">{errorMessage}</div>}
       {isLoading ? <LoadingSpinner /> : <SortedData data={peopleByPrice} />}
     </>
   );

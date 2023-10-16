@@ -4,6 +4,8 @@ import { useState } from "react";
 export default function DropdownMenuFilterByPrice({
   sortAscOrder,
   sortDescOrder,
+  sortAscOrderByName,
+  sortDescOrderByName,
 }) {
   const [toggle, setToggle] = useState(false);
 
@@ -28,7 +30,7 @@ export default function DropdownMenuFilterByPrice({
             sortAscOrder(), setToggle(false);
           }}
         >
-          От ниска към висока
+          Цена <i className="bi bi-arrow-down"></i>
         </button>
         <button
           className="dropdown-item"
@@ -36,7 +38,23 @@ export default function DropdownMenuFilterByPrice({
             sortDescOrder(), setToggle(false);
           }}
         >
-          От висока към ниска
+          Цена <i className="bi bi-arrow-up"></i>
+        </button>
+        <button
+          className="dropdown-item"
+          onClick={() => {
+            sortAscOrderByName(), setToggle(false);
+          }}
+        >
+          По име (А-Я)
+        </button>
+        <button
+          className="dropdown-item"
+          onClick={() => {
+            sortDescOrderByName(), setToggle(false);
+          }}
+        >
+          По име (Я-А)
         </button>
       </div>
     </div>
