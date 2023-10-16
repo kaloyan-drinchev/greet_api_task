@@ -19,7 +19,7 @@ export default function DropdownMenuFilterByPrice({
         onClick={dropdownMenuToggle}
         id="dropdownMenuButton"
       >
-        Сортирай по Цена
+        Сортирай
       </button>
       <div className={`dropdown-menu ${toggle ? "show" : ""}`}>
         <button
