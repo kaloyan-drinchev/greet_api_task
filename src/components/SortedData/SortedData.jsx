@@ -7,27 +7,27 @@ export default function SortedData({ data }) {
   return (
     <div className="container">
       <div className="row">
-        {data.map((person) => {
+        {data.map((product) => {
           return (
-            <div key={person.id} className="col-lg-2 col-md-4 col-sm-6 col-12">
-              {person.images.map((image) => (
+            <div key={product.id} className="col-lg-2 col-md-4 col-sm-6 col-12">
+              {product.images.map((image) => (
                 <div key={image.id} className="image-container text-center">
                   <img
                     src={image.src}
                     className="img-fluid rounded text-center"
                   />
                   <div className="overlay">
-                    <AddToCart id={person.id} />
-                    {person.categories.length > 0 && (
+                    <AddToCart id={product.id} />
+                    {product.categories.length > 0 && (
                       <div className="transparent-background">
-                        {person.categories.map((category) => (
+                        {product.categories.map((category) => (
                           <div key={category.id} className="text-white">
                             {category.name}
                           </div>
                         ))}
                         <div className="text-white">
-                          {person.prices.price}
-                          {person.prices.currency_suffix}
+                          {product.prices.price}
+                          {product.prices.currency_suffix}
                         </div>
                       </div>
                     )}
@@ -35,7 +35,7 @@ export default function SortedData({ data }) {
                 </div>
               ))}
               <div className="mb-5 mt-2 text-center">
-                <div className="text-white p-1 ">{person.name}</div>
+                <div className="text-white p-1 ">{product.name}</div>
               </div>
             </div>
           );

@@ -10,10 +10,12 @@ export async function fetchData(apiLink) {
   }
 }
 
-export async function getProducts(page, type, order) {
+export async function getProducts(page, type, sort) {
   try {
     return await fetchData(
-      `https://greet.bg/wp-json/wc/store/products?page=${page}&orderby=${type}&order=${order}`
+      `https://greet.bg/wp-json/wc/store/products?page=${page}${
+        type ? `&orderby=${type}` : ""
+      }${sort ? `&sort=${sort}` : ""}`
     );
   } catch (error) {
     console.error(error);
@@ -24,15 +26,15 @@ export async function getAllCategories() {
   const categories = [];
   try {
     const res = await fetchData(
-      "https://greet.bg/wp-json/wc/store/products/categories?orderby=count&order=asc"
+      "https://greet.bg/wp-json/wc/store/products?page=1"
     );
     if (Array.isArray(res)) {
-      res.forEach((person) => {
-        person.map((category) => {
+      res.forEach((product) => {
+        product.categories.map((category) => {
           categories.push(category.name);
         });
       });
-      return [...new Set(...categories)];
+      return [...new Set(categories)];
     }
   } catch (error) {
     console.error(error);

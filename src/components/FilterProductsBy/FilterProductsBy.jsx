@@ -28,13 +28,13 @@ export default function FilterProductsBy() {
       </button>
       <div className={`dropdown-menu ${toggle ? "show" : ""} p-1`}>
         {categories &&
-          categories.map((category) => (
+          categories.map((category, index) => (
             <button
-              key={category.id}
-              className="rounded mb-1 dropdown-item"
+              key={index}
+              className="rounded mb-1 dropdown-item text-black"
               onClick={() => setToggle(false)}
             >
-              {category.name}
+              {category}
             </button>
           ))}
       </div>

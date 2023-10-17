@@ -1,106 +1,86 @@
 import SortedData from "../SortedData/SortedData";
 import FilterProductsBy from "../FilterProductsBy/FilterProductsBy";
-import SortProductsBy from "../SortProductsBy/SortProductsBy";
-import { fetchData } from "../../helpers/helpers";
+import { getProducts } from "../../helpers/helpers";
 import { useEffect, useState } from "react";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import Dropdown from "../Dropdown/Dropdown";
 
 export default function Cards() {
-  const [peopleByPrice, setPeopleByPrice] = useState([]);
+  const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
+  const [sort, setSort] = useState("");
+  const [type, setType] = useState("");
 
   const loadMore = async () => {
-    setPage((prev) => prev + 1);
+    const nextPage = page + 1;
+    setIsLoading(true);
+    setPage((prev) => prev + nextPage);
     try {
-      const res = await fetchData(
-        // apiUrl, type, order
-        // `${apiUrl}?page=${page + 1}&orderby=${type}&order=${order}`
-        `https://greet.bg/wp-json/wc/store/products?page=${page + 1}`
-      );
-      setPeopleByPrice((prev) => [...prev, ...res]);
+      const res = await getProducts(nextPage, type, sort);
+      setProducts([...products, ...res]);
+      setIsLoading(false);
     } catch (error) {
       console.error(error);
     }
-  };
-
-  const sortAsc = async () => {
-    setIsLoading(true);
-    try {
-      const res = await fetchData(
-        `https://greet.bg/wp-json/wc/store/products?page=${page}&orderby=price&order=asc`
-      );
-      setPeopleByPrice(res);
-      setIsLoading(false);
-    } catch (error) {
-      setIsLoading(false);
-    }
-    loadMore("https://greet.bg/wp-json/wc/store/products", "price", "asc");
-  };
-
-  const sortDesc = async () => {
-    setIsLoading(true);
-    try {
-      const res = await fetchData(
-        `https://greet.bg/wp-json/wc/store/products?page=1&orderby=price&order=desc`
-      );
-      setPeopleByPrice(res);
-      setIsLoading(false);
-    } catch (error) {
-      setIsLoading(false);
-    }
-  };
-  const sortAscByName = async () => {
-    setIsLoading(true);
-    try {
-      const res = await fetchData(
-        `https://greet.bg/wp-json/wc/store/products?page=${page}&orderby=title&order=asc`
-      );
-      setPeopleByPrice(res);
-      setIsLoading(false);
-    } catch (error) {
-      setIsLoading(false);
-    }
-  };
-  const sortDescByName = async () => {
-    setIsLoading(true);
-    try {
-      const res = await fetchData(
-        `https://greet.bg/wp-json/wc/store/products?page=${page}&orderby=title&order=desc`
-      );
-      setPeopleByPrice(res);
-      setIsLoading(false);
-    } catch (error) {
-      setIsLoading(false);
-    }
+    setIsLoading(false);
   };
 
   useEffect(() => {
     setIsLoading(true);
-    async function fetchDataFromDefaultLink() {
+    const renderProducts = async () => {
       try {
-        const res = await fetchData(
-          `https://greet.bg/wp-json/wc/store/products?page=${page}`
-        );
-        setPeopleByPrice(res);
+        const res = await getProducts("1", type, sort);
+        setProducts(res);
         setIsLoading(false);
       } catch (error) {
-        setIsLoading(false);
+        console.error(error);
       }
-    }
-    fetchDataFromDefaultLink();
-  }, []);
+    };
+    renderProducts();
+  }, [type, sort]);
 
   return (
     <>
       <div className="container">
         <div className="row">
           <div className="col-6 col-lg-1 mb-3">
-            <SortProductsBy
-              ascOrder={sortAsc}
-              descOrder={sortDesc}
-              ascOrderByName={sortAscByName}
-              descOrderByName={sortDescByName}
+            <Dropdown
+              title="Сортиране"
+              items={[
+                {
+                  id: 1,
+                  name: (
+                    <>
+                      Цена <i className="bi bi-arrow-down"></i>
+                    </>
+                  ),
+                  data: { type: "price", sort: "asc" },
+                },
+                {
+                  id: 2,
+                  name: (
+                    <>
+                      Цена <i className="bi bi-arrow-up"></i>
+                    </>
+                  ),
+                  data: { type: "price", sort: "desc" },
+                },
+                {
+                  id: 3,
+                  name: "Име (А-Я)",
+                  data: { type: "title", sort: "asc" },
+                },
+                {
+                  id: 4,
+                  name: "Име (Я-А)",
+                  data: { type: "title", sort: "desc" },
+                },
+              ]}
+              onItemClick={(data) => {
+                setSort(data.sort);
+                setType(data.type);
+              }}
             />
           </div>
           <div className="col-6 col-lg-1 mb-3">
@@ -108,18 +88,15 @@ export default function Cards() {
           </div>
         </div>
       </div>
-
+      <SortedData data={products} />
       {isLoading ? (
         <LoadingSpinner />
       ) : (
-        <>
-          <SortedData data={peopleByPrice} />
-          <div className="d-flex justify-content-center align-items-center">
-            <button className="btn btn-primary mb-1" onClick={loadMore}>
-              Виж още
-            </button>
-          </div>
-        </>
+        <div className="d-flex justify-content-center align-items-center">
+          <button className="btn btn-primary mb-3" onClick={loadMore}>
+            Виж още
+          </button>
+        </div>
       )}
     </>
   );
