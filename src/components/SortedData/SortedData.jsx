@@ -8,7 +8,6 @@ export default function SortedData({ data }) {
     <div className="container">
       <div className="row">
         {data.map((person) => {
-          const personName = person.name.split(" ").slice(0, 2).join(" ");
           return (
             <div key={person.id} className="col-lg-2 col-md-4 col-sm-6 col-12">
               {person.images.map((image) => (
@@ -36,9 +35,7 @@ export default function SortedData({ data }) {
                 </div>
               ))}
               <div className="mb-5 mt-2 text-center">
-                <div className="bg-primary text-white p-1 rounded">
-                  {personName}
-                </div>
+                <div className="text-white p-1 ">{person.name}</div>
               </div>
             </div>
           );

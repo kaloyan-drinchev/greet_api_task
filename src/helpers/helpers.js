@@ -1,35 +1,40 @@
-async function fetchData(apiLink) {
+export async function fetchData(apiLink) {
   try {
     const res = await fetch(apiLink);
     if (!res.ok) {
       throw new Error(`Network response was not ok: ${res.status}`);
     }
-    return await res.json();
+    return res.json();
   } catch (error) {
     console.error(error);
   }
 }
 
-async function getAllCategories() {
+export async function getProducts(page, type, order) {
   try {
-    const res = await fetchData(
-      "https://greet.bg/wp-json/wc/store/products?page=1"
+    return await fetchData(
+      `https://greet.bg/wp-json/wc/store/products?page=${page}&orderby=${type}&order=${order}`
     );
-
-    if (Array.isArray(res)) {
-      const allCategories = [];
-      res.forEach((person) => {
-        person.categories.forEach((category) => {
-          allCategories.push(category.name);
-        });
-      });
-      const uniqueCategories = [...new Set(allCategories)];
-
-      return uniqueCategories;
-    }
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
 
-export { fetchData, getAllCategories };
+export async function getAllCategories() {
+  const categories = [];
+  try {
+    const res = await fetchData(
+      "https://greet.bg/wp-json/wc/store/products/categories?orderby=count&order=asc"
+    );
+    if (Array.isArray(res)) {
+      res.forEach((person) => {
+        person.map((category) => {
+          categories.push(category.name);
+        });
+      });
+      return [...new Set(...categories)];
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
