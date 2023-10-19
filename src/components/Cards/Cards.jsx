@@ -84,18 +84,22 @@ export default function Cards() {
               title="Сортиране"
               items={items}
               onItemClick={(data) => {
-                setProducts([]);
-                setSort(data.sort);
-                setType(data.type);
-                setItems((prevItems) => {
-                  return prevItems.map((item) => ({
-                    ...item,
-                    data: {
-                      ...item.data,
-                      status: item.data === data ? true : false,
-                    },
-                  }));
-                });
+                if (!data.status) {
+                  {
+                    setProducts([]);
+                  }
+                  setSort(data.sort);
+                  setType(data.type);
+                  setItems((prevItems) => {
+                    return prevItems.map((item) => ({
+                      ...item,
+                      data: {
+                        ...item.data,
+                        status: item.data === data ? true : false,
+                      },
+                    }));
+                  });
+                }
               }}
             />
           </div>
