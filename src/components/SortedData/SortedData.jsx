@@ -35,7 +35,10 @@ export default function SortedData({ data }) {
                 </div>
               ))}
               <div className="mb-5 mt-2 text-center">
-                <div className="text-white p-1 ">{product.name}</div>
+                <div
+                  className="text-white p-1"
+                  dangerouslySetInnerHTML={{ __html: product.name }}
+                ></div>
               </div>
             </div>
           );

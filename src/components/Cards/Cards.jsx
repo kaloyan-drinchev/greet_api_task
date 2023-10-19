@@ -11,6 +11,41 @@ export default function Cards() {
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState("");
   const [type, setType] = useState("");
+  const [items, setItems] = useState([
+    {
+      id: 1,
+      name: (
+        <>
+          Цена <i className="bi bi-arrow-up"></i>
+        </>
+      ),
+      data: { type: "price", sort: "asc", status: false },
+    },
+    {
+      id: 2,
+      name: (
+        <>
+          Цена <i className="bi bi-arrow-down"></i>
+        </>
+      ),
+      data: { type: "price", sort: "desc", status: false },
+    },
+    {
+      id: 3,
+      name: "Име (А-Я)",
+      data: { type: "title", sort: "asc", status: false },
+    },
+    {
+      id: 4,
+      name: "Име (Я-А)",
+      data: { type: "title", sort: "desc", status: false },
+    },
+    {
+      id: 5,
+      name: "Начално",
+      data: { type: "", sort: "", status: false },
+    },
+  ]);
 
   const loadMore = async () => {
     const nextPage = page + 1;
@@ -47,39 +82,20 @@ export default function Cards() {
           <div className="col-6 col-lg-1 mb-3">
             <Dropdown
               title="Сортиране"
-              items={[
-                {
-                  id: 1,
-                  name: (
-                    <>
-                      Цена <i className="bi bi-arrow-down"></i>
-                    </>
-                  ),
-                  data: { type: "price", sort: "asc" },
-                },
-                {
-                  id: 2,
-                  name: (
-                    <>
-                      Цена <i className="bi bi-arrow-up"></i>
-                    </>
-                  ),
-                  data: { type: "price", sort: "desc" },
-                },
-                {
-                  id: 3,
-                  name: "Име (А-Я)",
-                  data: { type: "title", sort: "asc" },
-                },
-                {
-                  id: 4,
-                  name: "Име (Я-А)",
-                  data: { type: "title", sort: "desc" },
-                },
-              ]}
+              items={items}
               onItemClick={(data) => {
+                setProducts([]);
                 setSort(data.sort);
                 setType(data.type);
+                setItems((prevItems) => {
+                  return prevItems.map((item) => ({
+                    ...item,
+                    data: {
+                      ...item.data,
+                      status: item.data === data ? true : false,
+                    },
+                  }));
+                });
               }}
             />
           </div>

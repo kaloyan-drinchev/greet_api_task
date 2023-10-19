@@ -15,7 +15,7 @@ export async function getProducts(page, type, sort) {
     return await fetchData(
       `https://greet.bg/wp-json/wc/store/products?page=${page}${
         type ? `&orderby=${type}` : ""
-      }${sort ? `&sort=${sort}` : ""}`
+      }${sort ? `&order=${sort}` : ""}`
     );
   } catch (error) {
     console.error(error);
