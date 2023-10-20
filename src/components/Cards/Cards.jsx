@@ -1,6 +1,5 @@
 import SortedData from "../SortedData/SortedData";
-import FilterProductsBy from "../FilterProductsBy/FilterProductsBy";
-import { getProducts } from "../../helpers/helpers";
+import { getProducts, getAllCategories } from "../../helpers/helpers";
 import { useEffect, useState } from "react";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import Dropdown from "../Dropdown/Dropdown";
@@ -46,6 +45,7 @@ export default function Cards() {
       data: { type: "", sort: "", status: false },
     },
   ]);
+  const [categories, setCategories] = useState([]);
 
   const loadMore = async () => {
     const nextPage = page + 1;
@@ -66,6 +66,8 @@ export default function Cards() {
     const renderProducts = async () => {
       try {
         const res = await getProducts("1", type, sort);
+        const allCategories = await getAllCategories(res);
+        setCategories(allCategories);
         setProducts(res);
         setIsLoading(false);
       } catch (error) {
@@ -79,7 +81,7 @@ export default function Cards() {
     <>
       <div className="container">
         <div className="row">
-          <div className="col-6 col-lg-1 mb-3">
+          <div className="col-12 col-lg-2 mb-3 mt-3">
             <Dropdown
               title="Сортиране"
               items={items}
@@ -103,8 +105,30 @@ export default function Cards() {
               }}
             />
           </div>
-          <div className="col-6 col-lg-1 mb-3">
-            <FilterProductsBy />
+          <div className="col-12 col-lg-2 mb-3 mt-3">
+            <Dropdown
+              title="Категории"
+              items={categories}
+              onItemClick={(data) => {
+                setProducts((prevProducts) => {
+                  const filterProducts = prevProducts.filter((product) => {
+                    return product.categories.some(
+                      (category) => category.name === data.name
+                    );
+                  });
+                  return filterProducts;
+                });
+                setCategories((prevCategories) => {
+                  return prevCategories.map((category) => ({
+                    ...category,
+                    data: {
+                      ...category.data,
+                      status: category.data === data ? true : false,
+                    },
+                  }));
+                });
+              }}
+            />
           </div>
         </div>
       </div>

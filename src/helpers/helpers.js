@@ -22,21 +22,22 @@ export async function getProducts(page, type, sort) {
   }
 }
 
-export async function getAllCategories() {
+export async function getAllCategories(data) {
   const categories = [];
-  try {
-    const res = await fetchData(
-      "https://greet.bg/wp-json/wc/store/products?page=1"
-    );
-    if (Array.isArray(res)) {
-      res.forEach((product) => {
-        product.categories.map((category) => {
-          categories.push(category.name);
-        });
+  if (Array.isArray(data)) {
+    data.forEach((product) => {
+      product.categories.map((category) => {
+        categories.push(category.name);
       });
-      return [...new Set(categories)];
-    }
-  } catch (error) {
-    console.error(error);
+    });
+    const categoryNames = [...new Set(categories)];
+
+    const allCategories = categoryNames.map((category, index) => ({
+      id: index + 1,
+      name: category,
+      data: { name: category, status: false },
+    }));
+
+    return allCategories;
   }
 }
