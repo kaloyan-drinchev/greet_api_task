@@ -1,6 +1,6 @@
 # Greet API Task
 
-![page view](main-page.png)
+![main-page](public/images/home-page.png)
 This is single-page application built with React and Bootstrap to consume and display products from the greet.bg API.
 
 ## Features
@@ -10,6 +10,7 @@ This is single-page application built with React and Bootstrap to consume and di
 - Filter products by category.
 - Sort products by name and price.
 - Active state on the buttons for sort and filter.
+  ![filtered products](public/images/page-example.png)
 
 ## Technologies Used
 
